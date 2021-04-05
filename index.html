@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Words</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css"  crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" crossorigin="anonymous" />
+<!-- Debug -->
+	<!-- <link rel="stylesheet" href="styles/debug.css"> -->
+
+<style>
+	html { 
+		overflow-y: auto; <!-- odd that this needs adding -->
+	} 
+
+        .center{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+
+</style>
+
+
+</head>
+<body class="has-background-light" style="min-height:100vh;" onload="loadFunction()">
+    <div class="section center">
+    <div class="columns">
+    
+		<div class="card">
+		  <div class="card-content center">
+			<p id="word" class="content has-background-info has-text-white mb-0" style="font-size:144pt; text-align:center; letter-spacing:40pt; height:480px;width:640px;">
+			  
+			</p>
+			<figure class="image is-hidden" id="image">
+				<img src="images/cat.jpg" style="height:480px; object-fit:scale-down !important;">
+			</figure>
+		  </div>
+		  <footer class="card-footer center">
+			<button id="action" class="button is-large m-2 is-light">Answer</button>
+			
+		  </footer>
+		</div>
+		
+		
+		
+		
+    </div>
+    </div>
+</body>
+
+<script>
+
+	const word = document.querySelector("#word");
+	const image = document.querySelector("#image");
+	const action = document.querySelector("#action");
+	const card = document.querySelector(".card");
+	
+	let wordVisible=true;
+	let wordNumber=0;
+	let lookupArr = [0,1,2,3,4];
+	
+	
+	const pathToImages = 'images/';
+	
+	const wordList = [
+		{
+			word:'cat',
+			image:'cat.jpg'
+		},
+		{
+			word:'dog',
+			image:'dog.jpg'
+		},
+		{
+			word:'car',
+			image:'car.jpg'
+		},
+		{
+			word:'bed',
+			image:'bed.jpg'
+		},
+		{
+			word:'pig',
+			image:'pig.jpg'
+		},
+	
+	];
+	
+
+	function shuffleArray(arr) {
+		for (let i = arr.length - 1; i > 0; i--) {
+			const j = Math.floor(Math.random() * (i + 1));
+			[arr[i], arr[j]] = [arr[j], arr[i]];
+		}
+}
+
+	action.addEventListener("click", ()=>{
+	
+		if(wordVisible){
+			word.classList.toggle("is-hidden");//hide word
+			image.classList.toggle("is-hidden");//show image
+			action.innerText = "Next"; //change button to next
+			wordVisible=false; //change wordVisible to false
+			
+		} else{
+			//Update word;
+			wordNumber++;
+			if(wordNumber==wordList.length){
+				wordNumber=0;
+				shuffleArray(lookupArr);
+			}
+			word.innerText=wordList[lookupArr[wordNumber]].word;
+			image.querySelector("img").src = pathToImages+wordList[lookupArr[wordNumber]].image;
+	
+			word.classList.toggle("is-hidden");//show word
+			image.classList.toggle("is-hidden");//hide image
+			action.innerText = "Answer"; //change button to Answer
+			wordVisible=true; //change wordVisible to false
+	
+		}
+	});
+
+
+	function loadFunction(){
+		shuffleArray(lookupArr);
+		/*console.log(lookupArr);
+		let a = [0,1,2,3,4];
+		a.forEach((i)=>{console.log(wordList[i].word);});
+		console.log("---");
+		lookupArr.forEach((i)=>{console.log(wordList[i].word);});
+		*/
+		word.innerText=wordList[lookupArr[wordNumber]].word;
+		image.querySelector("img").src = pathToImages+wordList[lookupArr[wordNumber]].image;
+		
+	
+	}
+
+
+
+</script>
+
+
+
+
+</html>
